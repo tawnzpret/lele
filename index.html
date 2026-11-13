@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Garden Kids - Khu Vườn Kỳ Diệu</title>
+    <style>
+        /* Phong cách Pixel Art & Thân thiện trẻ em */
+        body {
+            background-color: #e0f7fa;
+            font-family: 'Courier New', Courier, monospace;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            image-rendering: pixelated;
+        }
+
+        h1, h2, h3 {
+            color: #2e7d32;
+            text-shadow: 2px 2px 0px #c8e6c9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Khung phong cách Pixel Box */
+        .pixel-box {
+            border: 4px solid #2e7d32;
+            background: #ffffff;
+            box-shadow: 4px 4px 0px #1b5e20;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Nút bấm pixel */
+        .pixel-btn {
+            background: #81c784;
+            border: 3px solid #2e7d32;
+            box-shadow: 3px 3px 0px #1b5e20;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #1b5e20;
+            font-size: 14px;
+            transition: 0.1s;
+            margin: 5px;
+        }
+
+        .pixel-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #1b5e20;
+        }
+
+        .pixel-btn:hover {
+            background: #a5d6a7;
+        }
+
+        /* Thanh điều hướng */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Khu vực AI Bé Mầm */
+        .ai-container {
+            display: flex;
+            align-items: center;
+            background: #fff9c4;
+            border: 4px solid #fbc02d;
+            box-shadow: 4px 4px 0px #f57f17;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .ai-avatar {
+            width: 60px;
+            height: 60px;
+            background: #4caf50;
+            border: 3px solid #1b5e20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-right: 15px;
+            box-shadow: 2px 2px 0px #1b5e20;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+
+        .ai-speech {
+            font-size: 15px;
+            font-weight: bold;
+            color: #d84315;
+        }
+
+        /* Cửa hàng hạt giống */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .seed-card {
+            border: 3px dashed #2e7d32;
+            padding: 15px;
+            background: #f1f8e9;
+            text-align: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 3px 0;
+            border: 2px solid #333;
+        }
+        .tag-pro { background: #c8e6c9; color: #2e7d32; }
+        .tag-con { background: #ffccbc; color: #d84315; }
+        .tag-craft { background: #b3e5fc; color: #0277bd; }
+
+        /* Vườn cây thời gian thực */
+        .garden-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .plot {
+            border: 4px solid #8d6e63;
+            background: #d7ccc8;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #4e342e;
+        }
+
+        .plot.planted {
+            background: #a1887f;
+        }
+
+        .plant-icon {
+            font-size: 40px;
+            margin-bottom: 5px;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            padding: 2px 5px;
+            color: white;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+
+        .status-thirsty { background: #e65100; }
+        .status-bug { background: #b71c1c; }
+        .status-growing { background: #f57f17; }
+        .status-ready { background: #2e7d32; animation: pulse 0.8s infinite alternate; }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            background: #e8f5e9;
+            padding: 10px 15px;
+            border: 3px solid #2e7d32;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Tiêu đề website -->
+    <h1>🌱 Pixel Garden Kids - Khu Vườn Kỳ Diệu 🌻</h1>
+
+    <!-- Thanh thông tin xu & kho -->
+    <div class="stats-bar pixel-box" style="margin-bottom: 15px; padding: 10px;">
+        <span>💰 Xu của Bé: <strong id="coinCount">150</strong> xu</span>
+        <span>🎒 Hạt giống trong túi: <strong id="seedInventory">0</strong> gói</span>
+        <span>🌟 Cấp độ nông dân: <span id="level">1 (Bé Tập Trồng)</span></span>
+    </div>
+
+    <!-- Hộp thoại AI Nhân vật "Bé Mầm" -->
+    <div class="ai-container">
+        <div class="ai-avatar">🌱</div>
+        <div>
+            <strong>Bé Mầm (AI Bạn Nhỏ):</strong>
+            <p class="ai-speech" id="aiMessage">"Chào bé yêu! Tớ là Bé Mầm đây. Hôm nay chúng mình cùng trồng cây gì nào? Bé hãy chọn mua hạt giống bên dưới nhé!"</p>
+        </div>
+    </div>
+
+    <!-- Thanh điều hướng Tab -->
+    <div class="nav-tabs">
+        <button class="pixel-btn" onclick="switchTab('shop')">🛒 Cửa Hàng Hạt Giống</button>
+        <button class="pixel-btn" onclick="switchTab('garden')">🏡 Khu Vườn Của Bé</button>
+    </div>
+
+    <!-- PHẦN 1: CỬA HÀNG HẠT GIỐNG -->
+    <div id="shopTab" class="pixel-box">
+        <h2>🛒 Cửa Hàng Hạt Giống Thần Kỳ</h2>
+        <p>Bé hãy chọn loại hạt giống yêu thích để mua và đem ra vườn trồng nhé!</p>
+        <div class="shop-grid">
+            <!-- Cà chua bi -->
+            <div class="seed-card">
+                <h3>🍅 Cà Chua Bi</h3>
+                <p>Giá: <strong>50 xu</strong></p>
+                <div><span class="tag tag-pro">Ưu: Lớn nhanh, sai quả</span></div>
+                <div><span class="tag tag-con">Nhược: Sợ lạnh, cần nắng</span></div>
+                <div><span class="tag tag-craft">Thực phẩm: Salad / Pizza mini</span></div>
+                <br>
+                <button class="pixel-btn" onclick="buySeed('Cà Chua Bi', 50)">Mua Hạt Giống</button>
+            </div>
+            <!-- Hướng dương -->
+            <div class="seed-card">
+                <h3>🌻 Hoa Hướng Dương</h3>
+                <p>Giá: <strong>80 xu</strong></p>
+                <div><span class="tag tag-pro">Ưu: Hoa rực rỡ, chịu hạn tốt</span></div>
+                <div><span class="tag tag-con">Nhược: Thân cao chiếm diện tích</span></div>
+                <div><span class="tag tag-craft">Đạo cụ: Gậy mặt trời phát sáng</span></div>
+                <br>
+                <button class="pixel-btn" onclick="buySeed('Hướng Dương', 80)">Mua Hạt Giống</button>
+            </div>
+            <!-- Bạc hà -->
+            <div class="seed-card">
+                <h3>🌿 Cây Bạc Hà</h3>
+                <p>Giá: <strong>40 xu</strong></p>
+                <div><span class="tag tag-pro">Ưu: Đuổi sâu bọ, mọc cực nhanh</span></div>
+                <div><span class="tag tag-con">Nhược: Rễ lan rộng lấn đất</span></div>
+                <div><span class="tag tag-craft">Thực phẩm: Nước chanh mát lạnh</span></div>
+                <br>
+                <button class="pixel-btn" onclick="buySeed('Bạc Hà', 40)">Mua Hạt Giống</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN 2: KHU VƯỜN TRỒNG CÂY (Thời gian thực) -->
+    <div id="gardenTab" class="pixel-box" style="display: none;">
+        <h2>🏡 Khu Vườn Pixel Của Bé</h2>
+        <p>Chọn ô đất trống để gieo hạt, chăm sóc tưới nước và bắt sâu khi cây bệnh nhé!</p>
+        
+        <div class="garden-grid" id="gardenPlots">
+            <!-- Các ô đất được tạo tự động qua JS -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let coins = 150;
+    let seedInventory = 0;
+    let plots = [
+        { id: 0, state: 'empty', seedName: null, progress: 0, status: 'none', timer: null },
+        { id: 1, state: 'empty', seedName: null, progress: 0, status: 'none', timer: null },
+        { id: 2, state: 'empty', seedName: null, progress: 0, status: 'none', timer: null }
+    ];
+
+    // Chuyển tab giao diện
+    function switchTab(tabName) {
+        if(tabName === 'shop') {
+            document.getElementById('shopTab').style.display = 'block';
+            document.getElementById('gardenTab').style.display = 'none';
+            setAIMessage("Bé muốn mua hạt giống nào thế? Hãy xem kỹ ưu nhược điểm trước khi mua nha!");
+        } else {
+            document.getElementById('shopTab').style.display = 'none';
+            document.getElementById('gardenTab').style.display = 'block';
+            renderGarden();
+            setAIMessage("Chào mừng bé đến vườn! Bấm vào ô đất trống để gieo hạt và chăm sóc cây nào!");
+        }
+    }
+
+    // Đổi lời thoại AI
+    function setAIMessage(msg) {
+        document.getElementById('aiMessage').innerText = `"${msg}"`;
+    }
+
+    // Mua hạt giống
+    function buySeed(seedName, price) {
+        if(coins >= price) {
+            coins -= price;
+            seedInventory++;
+            updateStats();
+            setAIMessage(`Yê! Bé đã mua thành công hạt giống ${seedName}! Mang ra vườn trồng ngay thôi.`);
+            alert(`🎉 Chúc mừng bé đã sở hữu gói hạt giống ${seedName}!`);
+        } else {
+            setAIMessage("Ôi không! Bé không đủ xu rồi. Hãy chơi thêm hoặc chọn hạt giống rẻ hơn nhé!");
+            alert("⚠️ Bé ơi, không đủ xu rồi! Cần tích lũy thêm xu nhé.");
+        }
+    }
+
+    function updateStats() {
+        document.getElementById('coinCount').innerText = coins;
+        document.getElementById('seedInventory').innerText = seedInventory;
+    }
+
+    // Hiển thị khu vườn
+    function renderGarden() {
+        const container = document.getElementById('gardenPlots');
+        container.innerHTML = '';
+        
+        plots.forEach((plot, index) => {
+            let div = document.createElement('div');
+            div.className = `plot ${plot.state !== 'empty' ? 'planted' : ''}`;
+            div.onclick = () => handlePlotClick(index);
+
+            if(plot.state === 'empty') {
+                div.innerHTML = `<span style="font-size:24px;">🟫</span><small style="color:#4e342e; font-weight:bold;">Đất trống<br>(Bấm để trồng)</small>`;
+            } else if(plot.state === 'growing') {
+                let statusText = '';
+                let statusClass = '';
+                if(plot.status === 'thirsty') {
+                    statusText = '💧 Cây đang khát!';
+                    statusClass = 'status-thirsty';
+                } else if(plot.status === 'bug') {
+                    statusText = '🐛 Có sâu bệnh!';
+                    statusClass = 'status-bug';
+                } else {
+                    statusText = `🌱 Đang lớn (${plot.progress}%)`;
+                    statusClass = 'status-growing';
+                }
+                div.innerHTML = `
+                    <div class="plant-icon">${plot.seedName === 'Cà Chua Bi' ? '🍅' : plot.seedName === 'Hướng Dương' ? '🌻' : '🌿'}</div>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                `;
+            } else if(plot.state === 'ready') {
+                div.innerHTML = `
+                    <div class="plant-icon" style="animation: bounce 0.5s infinite;">✨🧺✨</div>
+                    <span class="status-badge status-ready">Thu hoạch ngay!</span>
+                `;
+            }
+            container.appendChild(div);
+        });
+    }
+
+    // Xử lý khi bấm vào ô đất
+    function handlePlotClick(index) {
+        let plot = plots[index];
+
+        if(plot.state === 'empty') {
+            if(seedInventory > 0) {
+                seedInventory--;
+                updateStats();
+                plot.state = 'growing';
+                plot.seedName = 'Cà Chua Bi'; // Mặc định hoặc ngẫu nhiên
+                plot.progress = 0;
+                plot.status = 'normal';
+                
+                setAIMessage("Yên tâm nhé! Bé đã gieo hạt xuống đất rồi. Cùng theo dõi cây lớn theo thời gian thực nào!");
+                renderGarden();
+                startGrowing(index);
+            } else {
+                setAIMessage("Túi hạt giống của bé đang trống trơn! Hãy ghé Cửa hàng mua hạt giống trước nha.");
+                alert("🛒 Bé chưa có hạt giống trong túi! Hãy sang tab Cửa Hàng để mua nhé.");
+            }
+        } else if(plot.state === 'growing') {
+            if(plot.status === 'thirsty') {
+                plot.status = 'normal';
+                setAIMessage("Tuyệt vời! Cây đã được uống nước mát và vươn vai lớn lên rồi!");
+                renderGarden();
+            } else if(plot.status === 'bug') {
+                plot.status = 'normal';
+                setAIMessage("Giỏi lắm! Bé đã bắt hết sâu bệnh giúp cây khỏe mạnh trở lại rồi!");
+                renderGarden();
+            } else {
+                setAIMessage("Cây đang lớn từng ngày. Bé hãy kiên nhẫn chờ thêm một chút nhé!");
+            }
+        } else if(plot.state === 'ready') {
+            // Thu hoạch
+            plot.state = 'empty';
+            let reward = 60;
+            coins += reward;
+            updateStats();
+            setAIMessage(`🎉 Chúc mừng bé! Thu hoạch thành công và nhận được +${reward} xu thưởng vào kho!`);
+            alert(`🎉 Hoan hô! Bé đã thu hoạch thành công cây trồng và nhận ${reward} xu!`);
+            renderGarden();
+        }
+    }
+
+    // Mô phỏng quá trình trồng cây thời gian thực
+    function startGrowing(index) {
+        let plot = plots[index];
+        
+        plot.timer = setInterval(() => {
+            if(plot.state !== 'growing') {
+                clearInterval(plot.timer);
+                return;
+            }
+
+            // Nếu cây đang gặp sự cố (khát hoặc sâu bệnh), dừng tiến độ cho đến khi được chữa
+            if(plot.status !== 'normal') {
+                return;
+            }
+
+            plot.progress += 20;
+
+            // Ngẫu nhiên phát sinh bệnh hoặc khát nước lúc cây lớn
+            if(plot.progress === 40) {
+                plot.status = 'thirsty';
+                setAIMessage("⚠️ Ôi chao! Đất bị khô nứt và cây đang thè lưỡi khát nước kìa! Bé hãy bấm vào ô cây để tưới nước nhé!");
+            } else if(plot.progress === 80) {
+                plot.status = 'bug';
+                setAIMessage("🐛 Cảnh báo! Có mấy chú sâu tinh nghịch đang gặm lá cây. Bé hãy bấm vào để bắt sâu chữa bệnh cho cây nha!");
+            }
+
+            if(plot.progress >= 100) {
+                plot.state = 'ready';
+                plot.progress = 100;
+                clearInterval(plot.timer);
+                setAIMessage("✨ Oa! Cây đã chín và ra quả rực rỡ rồi! Bé hãy bấm vào ô để thu hoạch thôi!");
+            }
+            renderGarden();
+        }, 1500); // Mỗi 1.5 giây tương ứng 1 giai đoạn thời gian thực trong demo
+    }
+</script>
+
+</body>
+</html>
