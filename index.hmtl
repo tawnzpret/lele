@@ -1,0 +1,166 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GREEN SEED — Khu vườn tí hon</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--ink:#244638;--green:#4d9b68;--lime:#b8df79;--cream:#fff8df;--yellow:#ffd76a;--pink:#ffb8b2;--blue:#b8e6ed;--card:#fffdf2;--shadow:5px 5px 0 #244638}
+*{box-sizing:border-box}body{margin:0;background:#dff1c8;color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-weight:700}
+button,input{font:inherit}button{cursor:pointer;border:3px solid var(--ink);border-radius:10px;background:var(--yellow);color:var(--ink);padding:10px 14px;box-shadow:3px 3px 0 var(--ink);font-weight:900}button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.pixel{font-family:'Press Start 2P',monospace;line-height:1.6}.topbar{position:sticky;top:0;z-index:5;background:#fff8df;border-bottom:4px solid var(--ink);display:flex;align-items:center;justify-content:space-between;padding:12px max(4vw,16px);gap:12px;flex-wrap:wrap}.brand{font-size:13px;color:#32744d}.brand small{display:block;font:700 11px Nunito;margin-top:3px}.nav{display:flex;gap:8px;flex-wrap:wrap}.nav a{color:var(--ink);text-decoration:none;padding:8px 10px;border:2px solid transparent;border-radius:8px;font-size:13px}.nav a:hover{border-color:var(--ink);background:#e6f4d5}
+main{max-width:1150px;margin:auto;padding:24px 18px 70px}.hero{background:#a9d989;border:4px solid var(--ink);border-radius:18px;box-shadow:var(--shadow);padding:28px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center;overflow:hidden}.hero h1{font-size:clamp(22px,4vw,42px);margin:8px 0 12px}.hero p{font-size:17px;line-height:1.6;max-width:650px}.tag{display:inline-block;background:var(--cream);border:2px solid var(--ink);padding:6px 9px;border-radius:7px;font-size:12px}.hero-art{text-align:center;font-size:clamp(70px,12vw,130px);filter:drop-shadow(5px 5px 0 #47744b)}.hero-art .pixel{font-size:11px;display:block}
+.section{margin-top:38px}.section-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}.section-title h2{font-size:clamp(17px,2.6vw,24px);margin:0}.section-title span{background:var(--yellow);border:3px solid var(--ink);padding:7px 10px;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--card);border:3px solid var(--ink);border-radius:14px;padding:17px;box-shadow:4px 4px 0 var(--ink)}.card h3{margin:8px 0}.card p,.card li{line-height:1.55}.icon{font-size:35px}.muted{font-size:13px;color:#587363}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.step{background:#fff0bd;border:3px solid var(--ink);border-radius:12px;padding:13px;text-align:center}.step b{display:block;font-size:23px}.step p{font-size:13px;line-height:1.45}
+.shop{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.seed-card{display:flex;flex-direction:column}.seed-card .buy{margin-top:auto}.seed-card .seed-icon{font-size:45px}.seed-card ul{padding-left:18px;font-size:13px}.price{color:#28764c;font-size:18px}.pill{display:inline-block;background:#e3f2d5;border:1px solid #6a9c6d;border-radius:20px;padding:3px 8px;font-size:11px;margin:2px}
+.game{background:#c8edcf;border:4px solid var(--ink);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.gamebar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.garden{min-height:210px;background:linear-gradient(#aee1ef 0 55%,#8fc66c 55%);border:3px solid var(--ink);border-radius:12px;margin:14px 0;padding:15px;display:flex;align-items:end;justify-content:center;gap:20px;flex-wrap:wrap}.plot{width:145px;height:145px;background:#a86f4c;border:4px solid #64452e;border-radius:12px 12px 4px 4px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;text-align:center;padding:8px}.plant{font-size:42px}.plot small{font-size:11px}.game-controls{display:flex;gap:9px;flex-wrap:wrap}.progress{height:16px;background:#e6e6d2;border:2px solid var(--ink);border-radius:20px;overflow:hidden}.progress div{height:100%;background:#6ebd68;width:0%;transition:width .3s}
+.ai-wrap{display:grid;grid-template-columns:180px 1fr;gap:15px;align-items:center}.bot{background:#d8c5ff;border:3px solid var(--ink);border-radius:14px;padding:14px;text-align:center}.botface{font-size:65px;line-height:1.3;image-rendering:pixelated}.chat{background:white;border:3px solid var(--ink);border-radius:14px;padding:15px;min-height:150px}.chatlog{height:120px;overflow:auto;font-size:14px;line-height:1.5}.chatline{margin:6px 0}.chatline.ai{color:#39794e}.chatline.user{color:#7454a6;text-align:right}.chat-input{display:flex;gap:8px;margin-top:10px}.chat-input input{min-width:0;flex:1;border:2px solid var(--ink);border-radius:8px;padding:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.notice{background:#fff0bd;border-left:6px solid #e6a52e;padding:13px;border-radius:8px;line-height:1.55;font-size:13px}.footer{text-align:center;margin-top:40px;padding:22px;background:#fff8df;border:3px solid var(--ink);border-radius:14px;font-size:13px;line-height:1.7}
+.modal{display:none;position:fixed;inset:0;background:#173b2ccc;z-index:10;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modalbox{max-width:480px;width:100%;background:var(--cream);border:4px solid var(--ink);border-radius:16px;padding:22px;box-shadow:8px 8px 0 var(--ink)}.close{float:right;background:var(--pink)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 18px;border-radius:10px;display:none;z-index:20}
+@media(max-width:850px){.shop{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.hero-art{display:none}}
+@media(max-width:560px){.grid,.shop,.two{grid-template-columns:1fr}.ai-wrap{grid-template-columns:1fr}.bot{display:flex;align-items:center;justify-content:center;gap:12px}.botface{font-size:45px}.nav a{font-size:11px;padding:5px}.hero{padding:20px}.pixel{font-size:10px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand pixel">GREEN SEED<small>KHU VƯỜN TÍ HON • GS-HOME 01</small></div>
+  <nav class="nav"><a href="#gioithieu">Giới thiệu</a><a href="#cuahang">Cửa hàng</a><a href="#vuon">Vườn của em</a><a href="#trogiup">Bạn Mầm</a></nav>
+</header>
+<main>
+<section class="hero" id="gioithieu">
+ <div><span class="tag pixel">WELCOME, GARDENER!</span><h1>Chào mừng đến với<br>khu vườn GREEN SEED!</h1>
+ <p>Biến một chiếc túi ươm nhỏ thành khu vườn kỳ diệu. Chọn hạt giống, gieo trồng, chăm sóc mỗi ngày và khám phá điều thú vị từ thế giới thực vật!</p>
+ <button onclick="document.querySelector('#cuahang').scrollIntoView({behavior:'smooth'})">🌱 Khám phá hạt giống</button>
+ <button onclick="document.querySelector('#vuon').scrollIntoView({behavior:'smooth'})">🎮 Vào khu vườn</button></div>
+ <div class="hero-art">🌿<div class="pixel">GROW • PLAY • LEARN</div>🪴</div>
+</section>
+
+<section class="section">
+ <div class="section-title"><span>01</span><h2>GREEN SEED là gì?</h2></div>
+ <div class="grid">
+  <article class="card"><div class="icon">🪴</div><h3>Túi ươm sinh học</h3><p>GREEN SEED là túi ươm có sẵn giá thể và hạt giống được tích hợp trên giấy gieo hạt. Em chỉ cần mở bao bì, đặt túi đúng chỗ, tưới nước và chăm sóc.</p></article>
+  <article class="card"><div class="icon">♻️</div><h3>Tận dụng phụ phẩm</h3><p>Vỏ túi được định hướng từ xơ dừa, bã mía, bẹ bắp và một phần lá chuối khô; hồ tinh bột giúp kết dính các sợi thực vật.</p></article>
+  <article class="card"><div class="icon">📄</div><h3>Ba phần chính</h3><p><b>Vỏ túi</b> tạo hình • <b>Lõi giá thể</b> sạch, tơi xốp • <b>Giấy gieo hạt</b> bằng cellulose có hạt giống khô.</p></article>
+ </div>
+ <div class="notice" style="margin-top:15px">💡 GREEN SEED GS-HOME 01 hiện là mẫu thử nghiệm. Khả năng phân hủy sinh học và việc trồng nguyên túi xuống đất cần được kiểm tra trước khi khẳng định. Khi cây khỏe, hãy chuyển cây sang chậu/đất trồng; chỉ trồng nguyên túi khi sản phẩm đã được xác nhận phù hợp.</div>
+</section>
+
+<section class="section">
+ <div class="section-title"><span>02</span><h2>Chơi mà học: 4 bước gieo trồng</h2></div>
+ <div class="steps">
+  <div class="step"><b>📦</b><strong>Mở túi</strong><p>Tháo bao bì chống ẩm, lấy túi ươm ra.</p></div>
+  <div class="step"><b>💧</b><strong>Tưới nhẹ</strong><p>Làm ẩm đều, không tưới ngập nước.</p></div>
+  <div class="step"><b>☀️</b><strong>Chọn chỗ</strong><p>Đặt nơi có ánh sáng, nhiệt độ phù hợp với hạt.</p></div>
+  <div class="step"><b>🌱</b><strong>Chăm cây</strong><p>Giữ ẩm vừa phải, quan sát cây mỗi ngày.</p></div>
+ </div>
+</section>
+
+<section class="section" id="cuahang">
+ <div class="section-title"><span>03</span><h2>Cửa hàng hạt giống</h2></div>
+ <p class="muted">Các loại bên dưới là danh mục minh họa để trình diễn website; cần thay bằng hạt giống thực tế, nguồn cung và hướng dẫn đã kiểm chứng trước khi bán.</p>
+ <div class="shop" id="seedShop"></div>
+</section>
+
+<section class="section" id="vuon">
+ <div class="section-title"><span>04</span><h2>Khu vườn của em — trò chơi thời gian thực</h2></div>
+ <div class="game">
+  <div class="gamebar"><b>🎮 Nhiệm vụ: chăm sóc mầm non mỗi ngày!</b><span class="pill" id="dayLabel">Ngày 0</span></div>
+  <p id="gameMessage">Chọn hạt giống ở cửa hàng rồi nhấn “Gieo hạt” để bắt đầu hành trình nhé!</p>
+  <div class="garden" id="garden"><div class="plot"><div class="plant">🟫</div><small>Ô đất trống</small></div></div>
+  <div class="progress"><div id="growthBar"></div></div>
+  <p class="muted" id="growthText">Tiến trình phát triển: chưa gieo hạt.</p>
+  <div class="game-controls">
+   <select id="gameSeed" aria-label="Chọn hạt giống" style="border:2px solid var(--ink);border-radius:8px;padding:9px;max-width:100%"></select>
+   <button onclick="plantSeed()">🌱 Gieo hạt</button><button onclick="waterPlant()">💧 Tưới nước</button><button onclick="checkPlant()">🔎 Kiểm tra cây</button>
+   <button onclick="harvestPlant()">🧺 Thu hoạch</button>
+  </div>
+  <p class="muted">Trò chơi lưu tiến trình trên thiết bị này. Thời gian vẫn được tính khi em đóng trang; tốc độ lớn trong game được rút gọn để dễ trải nghiệm, không phải lịch sinh trưởng thực tế.</p>
+ </div>
+</section>
+
+<section class="section">
+ <div class="section-title"><span>05</span><h2>Cây có thể giúp ích gì?</h2></div>
+ <div class="grid">
+  <article class="card"><div class="icon">🥗</div><h3>Ứng dụng trong thực phẩm</h3><p>Một số loại cây ăn được có thể dùng làm rau, rau mầm hoặc nguyên liệu trang trí món ăn. Chỉ sử dụng khi đã xác định đúng loài, trồng sạch và có hướng dẫn an toàn thực phẩm.</p></article>
+  <article class="card"><div class="icon">🎨</div><h3>Đồ thủ công & đạo cụ</h3><p>Hoa, lá khô hoặc hạt đã được xác nhận an toàn có thể dùng trong tranh thiên nhiên, mô hình, đồ trang trí và hoạt động thủ công cùng người lớn.</p></article>
+  <article class="card"><div class="icon">🔬</div><h3>Khám phá khoa học</h3><p>Ghi nhật ký nảy mầm, đo chiều cao, đếm lá và so sánh cây được chăm sóc khác nhau để học cách thực vật phát triển.</p></article>
+ </div>
+</section>
+
+<section class="section">
+ <div class="section-title"><span>06</span><h2>Nhật ký chăm cây & xử lý vấn đề</h2></div>
+ <div class="two">
+  <article class="card"><h3>🌤️ Dấu hiệu cây cần giúp đỡ</h3><ul>
+   <li><b>Đất quá khô:</b> kiểm tra độ ẩm; tưới nhẹ nếu bề mặt khô.</li>
+   <li><b>Đất sũng nước:</b> tạm ngưng tưới, nhờ người lớn kiểm tra lỗ thoát nước.</li>
+   <li><b>Lá vàng hoặc cây yếu:</b> kiểm tra ánh sáng, nước và tình trạng giá thể; chưa tự ý bón thêm phân.</li>
+   <li><b>Có mốc hoặc mùi lạ:</b> không chạm hay ngửi sát; báo người lớn để xử lý an toàn.</li>
+  </ul></article>
+  <article class="card"><h3>📒 Ghi lại hành trình</h3><p>Mỗi ngày em có thể ghi ngày gieo, lần tưới, số lá và chiều cao cây. Hãy chụp ảnh để so sánh sự thay đổi.</p><button onclick="addDiary()">✍️ Ghi nhật ký hôm nay</button><div id="diary" class="muted" style="margin-top:10px"></div></article>
+ </div>
+</section>
+
+<section class="section" id="trogiup">
+ <div class="section-title"><span>07</span><h2>Gặp Bạn Mầm — trợ lý pixel</h2></div>
+ <div class="ai-wrap">
+  <div class="bot"><div class="botface">🤖🌱</div><b class="pixel" style="font-size:9px">BẠN MẦM</b><div class="muted">Người bạn chăm cây</div></div>
+  <div class="chat"><div class="chatlog" id="chatlog"><div class="chatline ai"><b>Bạn Mầm:</b> Xin chào! Tớ là Bạn Mầm 🌱 Cậu muốn tìm hiểu cách gieo hạt, tưới cây hay xử lý khi cây gặp vấn đề?</div></div>
+   <div class="chat-input"><input id="chatInput" placeholder="Nhắn cho Bạn Mầm..." onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Gửi ➤</button></div>
+   <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button onclick="quickChat('Cách gieo hạt thế nào?')">Cách gieo hạt</button><button onclick="quickChat('Khi nào cần tưới nước?')">Tưới nước</button><button onclick="quickChat('Cây bị vàng lá thì sao?')">Lá vàng</button></div>
+  </div>
+ </div>
+ <p class="muted">Bạn Mầm hiện là trợ lý hỏi đáp mẫu chạy trực tiếp trong trình duyệt, chưa kết nối AI trực tuyến. Khi triển khai thật, cần bổ sung hệ thống AI có kiểm duyệt nội dung phù hợp trẻ em và sự giám sát của người lớn.</p>
+</section>
+
+<footer class="footer"><b class="pixel">GREEN SEED</b><br>Gieo một hạt nhỏ — khám phá điều kỳ diệu mỗi ngày! 🌱<br><span class="muted">GS-HOME 01 • Bản demo giao diện học tập và mua sắm</span></footer>
+</main>
+<div class="modal" id="modal"><div class="modalbox"><button class="close" onclick="closeModal()">Đóng ✕</button><div id="modalContent"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const seeds=[
+{id:'rau-muong',name:'Rau muống',emoji:'🥬',price:'15.000đ',type:'Rau ăn lá',days:7,light:'Nơi sáng, thoáng',water:'Giữ giá thể ẩm vừa, không để úng',pros:'Dễ quan sát quá trình nảy mầm; có thể dùng làm rau khi trồng đúng cách.',cons:'Cần đủ nước và ánh sáng; dễ yếu nếu bị úng hoặc thiếu sáng.',use:'Rau ăn sau khi xác định đúng giống và bảo đảm vệ sinh.'},
+{id:'dau-xanh',name:'Đậu xanh',emoji:'🫘',price:'12.000đ',type:'Hạt dễ quan sát',days:5,light:'Sáng nhẹ, thoáng khí',water:'Giữ ẩm vừa; tránh ngâm úng kéo dài',pros:'Hạt tương đối dễ quan sát khi nảy mầm; phù hợp hoạt động học tập.',cons:'Cây cần không gian và ánh sáng khi lớn; giá thể úng dễ làm hạt hỏng.',use:'Có thể dùng làm thực phẩm sau khi trồng và sơ chế an toàn; không ăn hạt giống xử lý.'},
+{id:'huong-duong',name:'Hướng dương',emoji:'🌻',price:'18.000đ',type:'Hoa cảnh',days:10,light:'Nơi có nhiều ánh sáng',water:'Tưới khi bề mặt giá thể bắt đầu se khô',pros:'Hoa nổi bật, thuận tiện quan sát thân và lá phát triển.',cons:'Cây trưởng thành cần chậu/đất rộng và nhiều nắng; có thể cao.',use:'Hoa trang trí; hạt chỉ dùng làm thực phẩm nếu đúng giống ăn được và không xử lý hóa chất.'},
+{id:'cai-mam',name:'Cải mầm',emoji:'🌱',price:'14.000đ',type:'Rau mầm',days:4,light:'Ánh sáng tán xạ khi cây lên mầm',water:'Giữ ẩm đều, thông thoáng, không để đọng nước',pros:'Chu kỳ quan sát ngắn; phù hợp ghi nhật ký học tập.',cons:'Cần vệ sinh tốt và thông thoáng; rau mầm có rủi ro vi sinh nếu trồng/bảo quản sai.',use:'Có thể là nguyên liệu thực phẩm nếu hạt chuyên dùng làm rau mầm và quy trình vệ sinh phù hợp.'}
+];
+const shop=document.getElementById('seedShop'), selector=document.getElementById('gameSeed');
+seeds.forEach(s=>{
+ shop.insertAdjacentHTML('beforeend',`<article class="card seed-card"><div class="seed-icon">${s.emoji}</div><span class="pill">${s.type}</span><h3>${s.name}</h3><div class="price">${s.price}</div><p class="muted">Thời gian demo: ${s.days} ngày game</p><button class="buy" onclick="showSeed('${s.id}')">Xem thông tin & chọn</button></article>`);
+ selector.insertAdjacentHTML('beforeend',`<option value="${s.id}">${s.name}</option>`);
+});
+function showSeed(id){const s=seeds.find(x=>x.id===id);document.getElementById('modalContent').innerHTML=`<h2>${s.emoji} ${s.name}</h2><p><b>Nhóm:</b> ${s.type}</p><p><b>Ánh sáng:</b> ${s.light}</p><p><b>Cách tưới:</b> ${s.water}</p><p><b>Ưu điểm:</b> ${s.pros}</p><p><b>Điểm cần lưu ý:</b> ${s.cons}</p><p><b>Ứng dụng:</b> ${s.use}</p><button onclick="document.getElementById('gameSeed').value='${s.id}';closeModal();document.querySelector('#vuon').scrollIntoView({behavior:'smooth'})">Chọn hạt này để chơi</button>`;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+let state=JSON.parse(localStorage.getItem('greenSeedGame')||'null');
+function save(){localStorage.setItem('greenSeedGame',JSON.stringify(state))}
+function elapsed(){return state?Math.max(0,Date.now()-state.startedAt):0}
+function renderGame(){
+ const garden=document.getElementById('garden');
+ if(!state){garden.innerHTML='<div class="plot"><div class="plant">🟫</div><small>Ô đất trống</small></div>';document.getElementById('growthBar').style.width='0%';document.getElementById('growthText').textContent='Tiến trình phát triển: chưa gieo hạt.';document.getElementById('dayLabel').textContent='Ngày 0';return}
+ const s=seeds.find(x=>x.id===state.seed), day=Math.floor(elapsed()/86400000), pct=Math.min(100,Math.floor(day/s.days*100)), stage=pct>=100?'🌿':pct>=65?'🌱':pct>=25?'🌰':'🫘';
+ document.getElementById('dayLabel').textContent='Ngày game '+day;
+ garden.innerHTML=`<div class="plot"><div class="plant">${stage}</div><b>${s.name}</b><small>${state.watered?'Đã tưới gần đây':'Nhớ kiểm tra độ ẩm nhé!'}</small></div>`;
+ document.getElementById('growthBar').style.width=pct+'%';
+ document.getElementById('growthText').textContent=`Tiến trình mô phỏng: ${pct}% • ${pct>=100?'Đã đến mốc trưởng thành trong game!':'Đang phát triển'}`;
+ document.getElementById('gameMessage').textContent=`${s.emoji} Em đang chăm sóc ${s.name}. ${state.watered?'Tốt lắm, hãy tiếp tục quan sát!':'Hãy kiểm tra độ ẩm giá thể trước khi tưới.'}`;
+}
+function plantSeed(){const id=selector.value;state={seed:id,startedAt:Date.now(),watered:false,lastWater:0};save();renderGame();toast('Đã gieo hạt! Chúc mừng người làm vườn 🌱')}
+function waterPlant(){if(!state){toast('Hãy gieo hạt trước nhé!');return}state.watered=true;state.lastWater=Date.now();save();renderGame();toast('Tưới nhẹ thôi nhé — tránh để úng nước! 💧')}
+function checkPlant(){if(!state){toast('Khu vườn đang chờ hạt giống!');return}const s=seeds.find(x=>x.id===state.seed);alert('Bạn Mầm nhắc nè!\\n\\n'+s.name+' thích: '+s.light+'.\\nCách tưới: '+s.water+'.\\nNếu thấy mốc hoặc mùi lạ, hãy nhờ người lớn kiểm tra nhé.')}
+function harvestPlant(){if(!state){toast('Chưa có cây để thu hoạch.');return}const s=seeds.find(x=>x.id===state.seed);if(elapsed()<s.days*86400000){toast('Cây chưa đến mốc trong trò chơi. Hãy kiên nhẫn nhé!');return}toast('Tuyệt vời! Em đã hoàn thành một vòng chăm cây 🧺');state=null;save();renderGame()}
+setInterval(renderGame,30000);renderGame();
+function addDiary(){const d=new Date().toLocaleDateString('vi-VN');const line='🌱 '+d+': Em đã ghé thăm khu vườn.';let arr=JSON.parse(localStorage.getItem('greenSeedDiary')||'[]');arr.unshift(line);localStorage.setItem('greenSeedDiary',JSON.stringify(arr.slice(0,10)));renderDiary();toast('Đã lưu nhật ký trên thiết bị này!')}
+function renderDiary(){const arr=JSON.parse(localStorage.getItem('greenSeedDiary')||'[]');document.getElementById('diary').innerHTML=arr.map(x=>'• '+x).join('<br>')||'Chưa có ghi chép nào.'}renderDiary();
+function botReply(q){const t=q.toLowerCase();if(t.includes('gieo')||t.includes('trồng'))return'Đầu tiên, mình mở bao bì chống ẩm, đặt túi trên khay thoát nước rồi tưới nhẹ để làm ẩm đều nhé. Đặt cây ở nơi có ánh sáng phù hợp với loại hạt!';if(t.includes('tưới')||t.includes('nước'))return'Mình kiểm tra độ ẩm trước nha! Giữ giá thể ẩm vừa phải, không để khô hoàn toàn và cũng không tưới ngập. Nếu khay đọng nước, nhờ người lớn kiểm tra lỗ thoát nước.';if(t.includes('vàng')||t.includes('bệnh')||t.includes('mốc')||t.includes('lá'))return'Lá vàng có thể liên quan đến nước, ánh sáng hoặc giá thể. Mình đừng tự ý dùng thuốc nhé. Nếu thấy mốc hay mùi lạ, không chạm vào và báo người lớn để kiểm tra an toàn.';if(t.includes('ưu')||t.includes('nhược'))return'Mỗi loại cây có điểm riêng: có cây dễ quan sát, có cây cần nhiều nắng hoặc không gian. Em hãy mở thẻ hạt giống trong cửa hàng để xem ưu điểm và điều cần lưu ý nhé!';if(t.includes('chào'))return'Chào cậu! Hôm nay khu vườn của chúng mình có thêm điều gì mới nhỉ?';return'Mình chưa hiểu hết câu hỏi rồi. Cậu thử hỏi về cách gieo hạt, tưới nước, ánh sáng hoặc dấu hiệu cây gặp vấn đề nhé! Nếu cây có dấu hiệu bất thường, hãy nhờ người lớn giúp.'}
+function sendChat(){const input=document.getElementById('chatInput'),q=input.value.trim();if(!q)return;addChat('Bạn: '+q,'user');addChat('Bạn Mầm: '+botReply(q),'ai');input.value=''}
+function quickChat(q){document.getElementById('chatInput').value=q;sendChat()}
+function addChat(text,cls){const log=document.getElementById('chatlog');const div=document.createElement('div');div.className='chatline '+cls;div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2500)}
+</script>
+</body>
+</html>'''
+path = Path("/mnt/data/green_seed_website_demo.html")
+path.write_text(html, encoding="utf-8")
+print(f"Đã tạo website demo: {path} ({path.stat().st_size:,} bytes)")
